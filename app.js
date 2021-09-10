@@ -8,20 +8,24 @@
 
 
 require('dotenv').config()
-const express = require('express')
+const express = require('express');
+// const router = require('./controllers/userController');
 const app = express()
 const port = 3000
 
 ;(async() => {
   app.use(express.json())
 
-  const auth = require('./controllers/Auth')
-  app.use("/auth", auth)
+  const user = require('./controllers/userController')
+  app.use("/user", user)
 
-//   const post = require('./controllers/Post')
-//   app.use('/post', post)
+  const game = require('./controllers/gameController')
+  app.use('/game', game)
+
+  const note = require('./controllers/noteController')
+  app.use('/note', note)
 
   app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`App listening at http://localhost:${port}`)
   })
 })()

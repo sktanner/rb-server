@@ -1,16 +1,19 @@
 const { sequelize, synceDb } = require('../db')
 const { DataTypes } = require('sequelize')
 
-const DefineUser = require('./User')
-// const DefinePost = require('./Post')
+const UserModel = require('./user')
+const GameModel = require('./game')
+const NoteModel = require('./note')
 
-const User = DefineUser(sequelize, DataTypes)
-// const Post = DefinePost(sequelize, DataTypes)
+const User = UserModel(sequelize, DataTypes)
+const Game = GameModel(sequelize, DataTypes)
+const Note = NoteModel(sequelize, DataTypes)
 
-// User.hasMany(Game)
-// Game.belongsTo(User)
+User.hasMany(Game)
+Game.belongsTo(User)
+Game.hasMany(Note)
+Note.belongsTo(Game)
 
-synceDb(sequelize, { alter:true })
+// synceDb(sequelize, { alter:true })
 
-
-module.exports = { User }
+module.exports = { User, Game, Note }
