@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { UniqueConstraintError } = require("sequelize/lib/errors");
-const { UserModel } = require("../models");
+const { User } = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -8,37 +8,25 @@ router.get('/test', (req, res) => {
     res.send('Test route')
 })
 
-/*
-============================
-User Register
-============================
-*/
 
+/* User Register */
 
 router.post("/register", async (req, res) => {
 
-    let { username, email, password } = req.body;
+    let { username, email, password } = req.body.user
     try {
-    const User = await UserModel.create({
+    const user = await User.create({
         username,
         email,
         password: bcrypt.hashSync(password, 13),
     });
 
-    // let token = jwt.sign({id: User.id, password: bcrypt.hashSync(password, 13)}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
-
-    let token = jwt.sign(
-        { id: User.id, password: bcrypt.hashSync(password, 13) },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: 60 * 60 * 24,
-        }
-      )
+    let token = jwt.sign({id: user.id, password: bcrypt.hashSync(password, 13)}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
   
 
     res.status(201).json({
         message: "You've successfully registered!",
-        user: User,
+        user: user,
         sessionToken: token
     });
 } catch (err) {
@@ -54,18 +42,14 @@ router.post("/register", async (req, res) => {
 }
  });
 
- /*
-============================
-User Login
-============================
-*/
-
+ 
+ /* User Login */
 
  router.post("/login", async (req, res) => {
     let { username, password } = req.body.user; 
     
     try {
-    const loginUser = await UserModel.findOne({
+    const loginUser = await User.findOne({
         where: {
             username: username,
         },
@@ -91,7 +75,7 @@ User Login
 }
 } catch (error) {
     res.status(500).json({
-        message: "Uh oh, we couldn't log you in!"
+        message: "Failed to Login"
     })
 }
  });
