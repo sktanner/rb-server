@@ -20,7 +20,7 @@ const validateJWT = async (req, res, next) => {
       )
       : undefined;
 
-      // console.log('payload -->", payload')
+      console.log('payload -->', payload)
   
 
       if (payload) {

@@ -1,4 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
+// removed DataTypes
 
 const sequelize = new Sequelize(
     process.env.DB_DBNAME,
