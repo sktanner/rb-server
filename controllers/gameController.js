@@ -7,18 +7,19 @@ router.post("/create", validateJWT, async (req, res) => {
     let message
 
     try {
-        let u = await User.findOne({where: { id: req.user}})
+        let u = await User.findOne({where: { id: req.user.id}})
+        // console.log(u);
         if (u) {
             let game = await Game.create({
-                title: req.body.game.title,
-                description: req.body.game.description,
-                categories: req.body.game.categories,
-                image: req.body.game.image
+                title: req.body.title,
+                description: req.body.description,
+                categories: req.body.categories,
+                image: req.body.image
             })
             await u.addGame(game)
 
-            let { id, title, description, categories, image } = await Game.findOne({ where: { id: game.id }})
-            message = {message: "Game created", data: { id, title, description, categories, image }}
+            // let { id, title, description, categories, image } = await Game.findOne({ where: { id: game.id }})
+            // message = {message: "Game created", data: { id, title, description, categories, image }}
         } else {
             message = {message: "User does not exist", data: null}
         }
@@ -27,7 +28,7 @@ router.post("/create", validateJWT, async (req, res) => {
     }
 
     res.json(message)
-
+})
 
 
     // const {title, description, categories, image} = req.body.game
@@ -45,7 +46,7 @@ router.post("/create", validateJWT, async (req, res) => {
     // } catch (err) {
     //     res.status(500).json({error: err})
     // }
-})
+
 
 /* Get all Games by User */
 router.get("/", validateJWT, async (req, res) => {

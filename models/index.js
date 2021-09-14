@@ -11,6 +11,7 @@ const Note = NoteModel(sequelize, DataTypes)
 
 User.hasMany(Game)
 Game.belongsTo(User)
+
 Game.hasMany(Note)
 Note.belongsTo(Game)
 
