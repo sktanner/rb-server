@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const { query } = require("express")
 let validateJWT = require("../middleware/validate-jwt")
 const { Game, User } = require("../models")
 
@@ -67,27 +68,19 @@ router.put("/:id", validateJWT, async (req, res) => {
 })
 
 
-
-
 /* Game Delete */
 
 router.delete("/:id", validateJWT, async (req, res) => {
-    const ownerId = req.user.id
     const gameId = req.params.id
 
-    try {
         const query = {
             where: {
-                id: gameId,
-                owner: ownerId
+                id: gameId
             }
         }
 
         await Game.destroy(query)
-        res.status(200).json({ message: "Game Removed" })
-    } catch (err) {
-        res.status(500).json({ error: err })
-    }
+        res.json({ message: "Game Removed" })
 })
 
 module.exports = router;
