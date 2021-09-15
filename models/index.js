@@ -12,9 +12,11 @@ const Note = NoteModel(sequelize, DataTypes)
 User.hasMany(Game)
 Game.belongsTo(User)
 
-Game.hasMany(Note)
+Game.hasMany(Note, {
+    onDelete: "CASCADE"
+})
 Note.belongsTo(Game)
 
-// synceDb(sequelize, { alter:true })
+synceDb(sequelize, { alter:true })
 
 module.exports = { User, Game, Note }

@@ -5,13 +5,11 @@ const { Game, User } = require("../models")
 /* Game Create */
 router.post("/create", validateJWT, async (req, res) => {
     let message
-    // const {title, description, categories, image} = req.body.game
-    // const userId = req.user.id
+
     try {
         let u = await User.findOne({where: { id: req.user.id}})
-        console.log(u)
+
         if (u) {
-            console.log('hitting try block?')
             let game = await u.createGame({
                 title: req.body.title,
                 description: req.body.description,
@@ -20,19 +18,13 @@ router.post("/create", validateJWT, async (req, res) => {
             })
             await u.addGame(game)
 
-            message = {message: 'Game created successfully.', data: game }
-
-
-            // res.status(200).json({ message: 'Game created successfully.', game })
-            // res.json(game)
-            console.log(game)
-            // let { id, title, description, categories, image } = await Game.findOne({ where: { id: game.id }})
-            // message = {message: "Game created", data: { id, title, description, categories, image }}
+            message = {message: 'Game created successfully', data: game }
         } 
         else {
             message = {message: "User does not exist", data: null}
         }
     } catch(err) {
+        // console.log(err);
         message = {message: "Game create failed"}
     }
 
@@ -42,30 +34,25 @@ router.post("/create", validateJWT, async (req, res) => {
 
 /* Get all Games by User */
 router.get("/", validateJWT, async (req, res) => {
-    const {id} = req.user
-    try {
-        const userGames = await Game.findAll({
-            where: { owner: id }
+    let u = await User.findOne({where: { id: req.user.id}})
+    let games = u ? await u.getGames() : null
+    if (games){
+        let cleaned_games = games.map( p => {
+                    const { title, description, categories, image } = p
+                    return { title, description, categories, image }
         })
-        res.status(200).json(userGames)
-    } catch (err) {
-        res.status(500).json({error:err})
+
+        res.send(cleaned_games)
     }
+    else
+        res.send(games)
 })
 
 
 /* Game Update */
 router.put("/:id", validateJWT, async (req, res) => {
-    const {title, description, categories, image} = req.body.game
+    const {title, description, categories, image} = req.body
     const gameId = req.params.id
-    const userId = req.user.id
-
-    const query = {
-        where: {
-            id: gameId,
-            owner: userId
-        }
-    }
 
     const updatedGame = {
         title: title,
@@ -74,15 +61,16 @@ router.put("/:id", validateJWT, async (req, res) => {
         image: image
     }
 
-    try {
-        const update = await Game.update(updatedGame, query)
-        res.status(200).json(updatedGame)
-    } catch (err) {
-        res.status(500).json({ error: err })
-    }
+        const update = await Game.update(updatedGame, {where: {id: gameId}})
+        console.log(update);
+        res.json(updatedGame)
 })
 
+
+
+
 /* Game Delete */
+
 router.delete("/:id", validateJWT, async (req, res) => {
     const ownerId = req.user.id
     const gameId = req.params.id
