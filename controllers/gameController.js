@@ -3,6 +3,7 @@ const { query } = require("express")
 let validateJWT = require("../middleware/validate-jwt")
 const { Game, User } = require("../models")
 
+
 /* Game Create */
 router.post("/create", validateJWT, async (req, res) => {
     let message
@@ -69,7 +70,6 @@ router.put("/:id", validateJWT, async (req, res) => {
 
 
 /* Game Delete */
-
 router.delete("/:id", validateJWT, async (req, res) => {
     const gameId = req.params.id
 
