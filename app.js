@@ -1,5 +1,5 @@
 
-/**
+/*
  * Users, Profile with collections?, games, notes
  * user has one profile?
  * profile has many games, each game belongs to one profile

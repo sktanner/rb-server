@@ -13,10 +13,9 @@ router.get('/test', (req, res) => {
 
 router.post("/register", async (req, res) => {
 
-    let { username, email, password } = req.body.user
+    let { email, password } = req.body.user
     try {
     const user = await User.create({
-        username,
         email,
         password: bcrypt.hashSync(password, 13),
     });
@@ -32,7 +31,7 @@ router.post("/register", async (req, res) => {
 } catch (err) {
     if (err instanceof UniqueConstraintError){
         res.status(409).json({
-            message: "Username is already in use",
+            message: "Email is already in use",
         });
     } else {
     res.status(500).json({
@@ -46,12 +45,12 @@ router.post("/register", async (req, res) => {
  /* User Login */
 
  router.post("/login", async (req, res) => {
-    let { username, password } = req.body.user; 
+    let { email, password } = req.body.user; 
     
     try {
     const loginUser = await User.findOne({
         where: {
-            username: username,
+            email: email,
         },
     });
     if (loginUser) {
