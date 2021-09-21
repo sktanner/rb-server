@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         image: {
             type: DataTypes.STRING,
-        },
+        }
     })
     return Game
 }

@@ -40,8 +40,8 @@ router.get("/", validateJWT, async (req, res) => {
     let games = u ? await u.getGames() : null
     if (games){
         let cleaned_games = games.map( p => {
-                    const { title, description, categories, image } = p
-                    return { title, description, categories, image }
+                    const { title, description, categories, image, id } = p
+                    return { title, description, categories, image, id }
         })
 
         res.send(cleaned_games)
