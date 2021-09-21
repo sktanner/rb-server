@@ -1,12 +1,3 @@
-
-/*
- * Users, Profile with collections?, games, notes
- * user has one profile?
- * profile has many games, each game belongs to one profile
- * each game has many notes, note belongs to game
-*/
-
-
 require('dotenv').config()
 const express = require('express');
 const app = express()
@@ -14,6 +5,8 @@ const port = 3000
 
 ;(async() => {
   app.use(express.json())
+
+  app.use(require('./middleware/headers'))
 
   const user = require('./controllers/userController')
   app.use("/user", user)

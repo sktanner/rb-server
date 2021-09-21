@@ -26,8 +26,8 @@ router.post("/create", validateJWT, async (req, res) => {
             message = {message: "User does not exist", data: null}
         }
     } catch(err) {
-        // console.log(err);
-        message = {message: "Game create failed"}
+        console.log(err);
+        message = {message: "Game create failed", error: err}
     }
 
     res.json(message)
