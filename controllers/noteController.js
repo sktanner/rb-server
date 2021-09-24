@@ -35,11 +35,11 @@ router.get("/:id", validateJWT, async (req, res) => {
     let notes = game ? await game.getNotes() : null
     if (notes){
         let cleaned_notes = notes.map( p => {
-                    const { content } = p
-                    return { content }
+                    const { content, id } = p
+                    return { content, id }
         })
 
-        res.send(cleaned_notes)
+        res.status(200).json(cleaned_notes)
     }
     else
         res.send(notes)

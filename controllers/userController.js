@@ -4,20 +4,17 @@ const { User } = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-router.get('/test', (req, res) => {
-    res.send('Test route')
-})
-
 
 /* User Register */
 
 router.post("/register", async (req, res) => {
 
-    let { email, password } = req.body.user
+    let { email, password, isAdmin } = req.body.user
     try {
     const user = await User.create({
         email,
         password: bcrypt.hashSync(password, 13),
+        isAdmin
     });
 
     let token = jwt.sign({id: user.id, password: bcrypt.hashSync(password, 13)}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
