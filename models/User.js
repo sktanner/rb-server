@@ -10,8 +10,8 @@ const User = sequelize.define("User", {
         allowNull: false,
     },
     isAdmin: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
+        type: DataTypes.STRING,
+        defaultValue: "false"
     }
 })
 return User

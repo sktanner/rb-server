@@ -78,7 +78,7 @@ router.post("/login", async (req, res) => {
 });
 
 
-/* Get all Users */
+/* Get all Users */ // WORKING
 
 router.get("/", validateJWT, async (req, res) => {
     try {
@@ -92,17 +92,17 @@ router.get("/", validateJWT, async (req, res) => {
 
 /* Validate User */
 
-router.get("/validate", validateJWT, async (req, res) => {
+// router.get("/validate", validateJWT, async (req, res) => {
     
-    try {
-let validatedUser = await User.findOne({where: { id: req.user.id}})
-if (validatedUser && req.user.isAdmin === true)
+//     try {
+// let validatedUser = await User.findOne({where: { id: req.user.id}})
+// if (validatedUser && req.user.isAdmin === true)
         
-        res.status(200).json({message: "User Validated", validatedUser})
-    } catch (err) {
-        res.status(500).json({ error: err })
-    }
-})
+//         res.status(200).json({message: "User Validated", validatedUser})
+//     } catch (err) {
+//         res.status(500).json({ error: err })
+//     }
+// })
 
 
 /* User Delete */
