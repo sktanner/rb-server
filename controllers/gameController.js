@@ -13,10 +13,9 @@ router.post("/create", validateJWT, async (req, res) => {
 
         if (u) {
             let game = await u.createGame({
-                title: req.body.title,
+                name: req.body.name,
                 description: req.body.description,
-                categories: req.body.categories,
-                image: req.body.image,
+                thumb_url: req.body.thumb_url,
                 collection: req.body.collection
             })
             await u.addGame(game)
@@ -41,8 +40,8 @@ router.get("/", validateJWT, async (req, res) => {
     let games = u ? await u.getGames() : null
     if (games){
         let cleaned_games = games.map( p => {
-                    const { title, description, categories, image, id, collection } = p
-                    return { title, description, categories, image, id, collection }
+                    const { name, description, thumb_url, id, collection } = p
+                    return { name, description, thumb_url, id, collection }
         })
 
         res.send(cleaned_games)
@@ -54,14 +53,13 @@ router.get("/", validateJWT, async (req, res) => {
 
 /* Game Update */
 router.put("/:id", validateJWT, async (req, res) => {
-    const {title, description, categories, image, collection} = req.body
+    const {name, description, thumb_url, collection} = req.body
     const gameId = req.params.id
 
     const updatedGame = {
-        title: title,
+        name: name,
         description: description,
-        categories: categories,
-        image: image,
+        thumb_url: thumb_url,
         collection: collection
     }
 

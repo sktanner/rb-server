@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Game = sequelize.define("Game", {
-        title: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -8,11 +8,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        categories: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        image: {
+        thumb_url: {
             type: DataTypes.STRING
         },
         collection: {
