@@ -50,6 +50,41 @@ router.get("/", validateJWT, async (req, res) => {
         res.send(games)
 })
 
+/* Get Games by Collection */
+
+// router.get("/:collection", async (req, res) => {
+//     const { collection } = req.params
+//     try {
+//         const results = await Game.findAll({
+//             where: { collection: collection }
+//         })
+//         res.status(200).json(results)
+//     } catch (err) {
+//         res.status(500).json({ error: err })
+//     }
+// })
+
+// router.get("/:collection", validateJWT, function (req, res) {
+//     let collection = req.params.collection;
+//     const query = { where: { collection: collection, UserId: req.user.id } };
+//     Game.findAll(query)
+//       .then((games) => res.status(200).json(games))
+//       .catch((err) => res.status(500).json({ error: err }));
+//   });
+
+router.get("/:collection", validateJWT, async (req, res) => {
+        try {
+            let u = await User.findOne({where: { id: req.user.id}})
+            let games = await u.getGames({where: { collection: req.params.collection}})
+            res.status(200).json(games)    
+        }
+        catch (error) {
+            res.status(500).json({ error: error })
+        }
+})
+  
+  
+
 
 /* Game Update */
 router.put("/:id", validateJWT, async (req, res) => {
