@@ -1,15 +1,9 @@
 const { Sequelize } = require('sequelize');
 // removed DataTypes
 
-const sequelize = new Sequelize(
-    process.env.DB_DBNAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
-    {
-        host: process.env.DB_HOST,
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
         dialect: 'postgres'
-    }
-);
+});
 
 async function synceDb(sequelize, options){
     const { force, alter} = options
