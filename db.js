@@ -2,10 +2,17 @@ const { Sequelize } = require('sequelize');
 // removed DataTypes
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
-        dialect: 'postgres'
+        dialect: 'postgres',
+        dialectOptions: {
+            ssl:{
+                    require: true,
+                    rejectUnauthorized: false
+                }
+    }
+
 });
 
-async function synceDb(sequelize, options){
+async function syncDb(sequelize, options){
     const { force, alter} = options
     try {
         if (force)
@@ -21,5 +28,5 @@ async function synceDb(sequelize, options){
 
 module.exports = {
     sequelize,
-    synceDb
+    syncDb
 }

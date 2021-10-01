@@ -1,4 +1,4 @@
-const { sequelize, synceDb } = require('../db')
+const { sequelize, syncDb } = require('../db')
 const { DataTypes } = require('sequelize')
 
 const UserModel = require('./user')
@@ -17,6 +17,6 @@ Game.hasMany(Note, {
 })
 Note.belongsTo(Game)
 
-synceDb(sequelize, { alter:true })
+syncDb(sequelize, { alter:true })
 
 module.exports = { User, Game, Note }
