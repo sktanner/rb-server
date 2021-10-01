@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize')
 
 const UserModel = require('./User')
 const GameModel = require('./game')
-const NoteModel = require('./Note')
+const NoteModel = require('./note')
 
 const User = UserModel(sequelize, DataTypes)
 const Game = GameModel(sequelize, DataTypes)
